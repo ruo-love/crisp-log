@@ -75,7 +75,7 @@ program
           }
           console.log(stdout);
         }
-      );
+      );  
     }
   });
 
