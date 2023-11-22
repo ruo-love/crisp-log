@@ -70,12 +70,12 @@ program
           : `git add . && git commit -m "${commitMessage}"`,
         (err, stdout, stderr) => {
           if (err) {
-            console.log(stdout,stderr);
-            return;  
+            console.log(stdout, stderr);
+            return;
           }
           console.log(stdout);
-        }  
-      );  
+        }
+      );
     }
   });
 
