@@ -1,6 +1,6 @@
 {
   "name": "crisp-log",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "快速生成清晰、简洁的提交信息",
   "bin": {
     "crisp": "./bin/index.js"
