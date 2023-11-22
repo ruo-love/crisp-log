@@ -31,8 +31,6 @@ crisp log feat 开发购物车功能
 git add .
 git commit -m 'feat: 开发购物车功能'
 
-
-crisp log [type] [message] -n // 加上-n 参数表示 只进行 git commit，不执行 git add .
 ```
 
 #### crisp log
@@ -56,3 +54,11 @@ git add .
 git commit -m 'fix: 修复购物车删除异常'  //此处的fix 是通过识别分支名获取的
 
 ```
+
+### 其他参数
+
+crisp log [type] [message] -n // 加上-n 参数表示 只进行 git commit，不执行 git add .
+
+crisp log [type] [message] -n // 加上-p 参数表示 commit 之后自动 git push
+
+crisp log [type] [message] -n // 加上-u 参数表示 commit 之后自动 git push -u origin branch:branch
