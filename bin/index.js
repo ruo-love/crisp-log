@@ -74,7 +74,7 @@ program
             return;  
           }
           console.log(stdout);
-        }
+        }  
       );  
     }
   });
