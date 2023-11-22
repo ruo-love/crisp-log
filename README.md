@@ -19,11 +19,11 @@ npm i crisp-log -D
 
 ### 命令
 
-1. crisp log [type] [message]
+#### crisp log [type] [message]
 
 例如：
 
-```
+```js
 crisp log feat 开发购物车功能
 
 ↓👇↓
@@ -31,14 +31,19 @@ crisp log feat 开发购物车功能
 git add .
 git commit -m 'feat: 开发购物车功能'
 
+
+crisp log [type] [message] -n // 加上-n 参数表示 只进行 git commit，不执行 git add .
 ```
 
-crisp log [type] [message] -n //加上-n 参数表示 只进行 git commit，不执行 git add .
+#### crisp log
 
-2. crisp log
-   可视化生成 commit
+可视化生成 commit
 
-3. crisp log [message]
+```
+可视化手动选择type 生成message
+```
+
+#### crisp log [message]
 
 如果 type 没有设定，会自动识别当前分支关键词，例如当前分支为 fix/cart-zero
 
