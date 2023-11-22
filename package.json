@@ -1,7 +1,8 @@
 {
   "name": "crisp-log",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "description": "快速生成清晰、简洁的提交信息",
+  "homepage": "https://github.com/ruo-love/crisp-log",
   "bin": {
     "crisp": "./bin/index.js"
   },
