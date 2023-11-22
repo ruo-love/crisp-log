@@ -21,8 +21,10 @@ program.version("0.0.1").name("crisp-log").description(`
 
 program
   .command("run [type] [message]")
+  .option("-n, --notAdd [notAdd]", "add .")
   .description("开始生成提交信息")
-  .action(async (p1, p2) => {
+  .action(async (p1, p2, option) => {
+    const { notAdd } = option;
     let _type, _message;
     if (p1 && p2) {
       _type = p1;
@@ -62,13 +64,18 @@ program
     }
     function toLog(type, message) {
       const commitMessage = `${typeMap[type] || type}: ${message}`;
-      exec(`git add . && git commit -m "${commitMessage}"`, (err, stdout, stderr) => {
-        if (err) {
-          console.log(err);
-          return;
+      exec(
+        notAdd
+          ? `git commit -m "${commitMessage}`
+          : `git add . && git commit -m "${commitMessage}"`,
+        (err, stdout, stderr) => {
+          if (err) {
+            console.log(err);
+            return;
+          }
+          console.log(stdout);
         }
-        console.log(stdout);
-      });
+      );
     }
   });
 
