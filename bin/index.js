@@ -93,7 +93,7 @@ program
           console.log(stdout);
         }
       );
-    }
+    } 
     function push() {
       exec("git symbolic-ref --short -q HEAD", async (err, stdout, stderr) => {
         if (err) {
