@@ -79,4 +79,12 @@ program
     }
   });
 
+// 检测版本
+program
+  .command("version")
+  .description("检测版本")
+  .action(() => {
+    const pkg = require("../package.json");
+    console.log(`version: ${pkg.version}`);
+  });
 program.parse(process.argv);
