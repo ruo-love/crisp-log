@@ -32,7 +32,7 @@ program
       _type = p1;
       _message = p2;
       toLog(_type, _message);
-      option.push && push();
+      (option.push || option.u) && push();
     } else if (p1 && !p2) {
       _message = p1;
       exec("git symbolic-ref --short -q HEAD", async (err, stdout, stderr) => {
@@ -56,7 +56,7 @@ program
           _type = type_answer.type;
         }
         toLog(_type, _message);
-        option.push && push();
+        (option.push || option.u) && push();
       });
     } else {
       const type_answer = await inquirer.prompt([
@@ -77,7 +77,7 @@ program
       ]);
       _message = message_answer.message;
       toLog(_type, _message);
-      option.push && push();
+      (option.push || option.u) && push();
     }
     function toLog(type, message) {
       const commitMessage = `${typeMap[type] || type}: ${message}`;
@@ -93,7 +93,7 @@ program
           console.log(stdout);
         }
       );
-    } 
+    }
     function push() {
       exec("git symbolic-ref --short -q HEAD", async (err, stdout, stderr) => {
         if (err) {
