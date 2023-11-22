@@ -8,6 +8,10 @@
   "scripts": {
     "build": "vite build"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
   "keywords": [],
   "author": "@zrcode",
   "license": "ISC",

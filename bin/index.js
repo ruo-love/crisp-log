@@ -20,14 +20,42 @@ program.version("0.0.1").name("crisp-log").description(`
 `);
 
 program
-  .command("run [type] [message]")
+  .command("log [type] [message]")
+  .option("-n, --notAdd [notAdd]", "add .")
   .description("开始生成提交信息")
-  .action(async (type, message) => {
+  .action(async (p1, p2, option) => {
+    const { notAdd } = option;
     let _type, _message;
-    if (type) {
-      _type = type;
+    if (p1 && p2) {
+      _type = p1;
+      _message = p2;
+      toLog(_type, _message);
+    } else if (p1 && !p2) {
+      _message = p1;
+      exec("git symbolic-ref --short -q HEAD", async (err, stdout, stderr) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        const branch = stdout.trim();
+        // 检测分支名是否包含 type
+        _type = Object.keys(typeMap).find((key) => branch.includes(key));
+        if (!_type) {
+          console.log("分支名不包含 type, 请手动输入 type");
+          const type_answer = await inquirer.prompt([
+            {
+              type: "list",
+              name: "type",
+              message: "请选择提交类型:",
+              choices: Object.keys(typeMap),
+            },
+          ]);
+          _type = type_answer.type;
+        }
+        toLog(_type, _message);
+      });
     } else {
-      const answers = await inquirer.prompt([
+      const type_answer = await inquirer.prompt([
         {
           type: "list",
           name: "type",
@@ -35,22 +63,32 @@ program
           choices: Object.keys(typeMap),
         },
       ]);
-      _type = answers.type;
-    }
-    if (message) {
-      _message = message;
-    } else {
-      const answers = await inquirer.prompt([
+      _type = type_answer.type;
+      const message_answer = await inquirer.prompt([
         {
           type: "input",
           name: "message",
           message: "请输入提交信息:",
         },
       ]);
-      _message = answers.message;
+      _message = message_answer.message;
+      toLog(_type, _message);
     }
-    const commitMessage = `${typeMap[_type]|| _type} : ${_message}`;
-    console.log(`\n${commitMessage}\n`);
+    function toLog(type, message) {
+      const commitMessage = `${typeMap[type] || type}: ${message}`;
+      exec(
+        notAdd
+          ? `git commit -m "${commitMessage}`
+          : `git add . && git commit -m "${commitMessage}"`,
+        (err, stdout, stderr) => {
+          if (err) {
+            console.log(stdout, stderr);
+            return;
+          }
+          console.log(stdout);
+        }
+      );
+    }
   });
 
 program.parse(process.argv);
