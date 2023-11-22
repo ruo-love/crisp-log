@@ -20,7 +20,7 @@ program.version("0.0.1").name("crisp-log").description(`
 `);
 
 program
-  .command("run [type] [message]")
+  .command("log [type] [message]")
   .option("-n, --notAdd [notAdd]", "add .")
   .description("开始生成提交信息")
   .action(async (p1, p2, option) => {
@@ -32,7 +32,7 @@ program
       toLog(_type, _message);
     } else if (p1 && !p2) {
       _message = p1;
-      exec("git symbolic-ref --short -q HEAD", (err, stdout, stderr) => {
+      exec("git symbolic-ref --short -q HEAD", async (err, stdout, stderr) => {
         if (err) {
           console.log(err);
           return;
@@ -40,6 +40,18 @@ program
         const branch = stdout.trim();
         // 检测分支名是否包含 type
         _type = Object.keys(typeMap).find((key) => branch.includes(key));
+        if (!_type) {
+          console.log("分支名不包含 type, 请手动输入 type");
+          const type_answer = await inquirer.prompt([
+            {
+              type: "list",
+              name: "type",
+              message: "请选择提交类型:",
+              choices: Object.keys(typeMap),
+            },
+          ]);
+          _type = type_answer.type;
+        }
         toLog(_type, _message);
       });
     } else {
@@ -79,12 +91,4 @@ program
     }
   });
 
-// 检测版本
-program
-  .command("version")
-  .description("检测版本")
-  .action(() => {
-    const pkg = require("../package.json");
-    console.log(`version: ${pkg.version}`);
-  });
 program.parse(process.argv);
