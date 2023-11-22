@@ -21,7 +21,9 @@ program.version("0.0.1").name("crisp-log").description(`
 
 program
   .command("log [type] [message]")
-  .option("-n, --notAdd [notAdd]", "add .")
+  .option("-n, --notAdd [notAdd]", "不运行 git add .")
+  .option("-p, --push [push]", "git push")
+  .option("-u, --u [u]", "git push -u")
   .description("开始生成提交信息")
   .action(async (p1, p2, option) => {
     const { notAdd } = option;
@@ -30,6 +32,7 @@ program
       _type = p1;
       _message = p2;
       toLog(_type, _message);
+      option.push && push();
     } else if (p1 && !p2) {
       _message = p1;
       exec("git symbolic-ref --short -q HEAD", async (err, stdout, stderr) => {
@@ -53,6 +56,7 @@ program
           _type = type_answer.type;
         }
         toLog(_type, _message);
+        option.push && push();
       });
     } else {
       const type_answer = await inquirer.prompt([
@@ -73,6 +77,7 @@ program
       ]);
       _message = message_answer.message;
       toLog(_type, _message);
+      option.push && push();
     }
     function toLog(type, message) {
       const commitMessage = `${typeMap[type] || type}: ${message}`;
@@ -88,6 +93,25 @@ program
           console.log(stdout);
         }
       );
+    }
+    function push() {
+      exec("git symbolic-ref --short -q HEAD", async (err, stdout, stderr) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        const branch = stdout.trim();
+        exec(
+          option.u ? `git push -u origin ${branch}:${branch}` : "git push",
+          (err, stdout, stderr) => {
+            if (err) {
+              console.log(stdout, stderr);
+              return;
+            }
+            console.log(stdout);
+          }
+        );
+      });
     }
   });
 
