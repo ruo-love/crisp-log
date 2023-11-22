@@ -59,6 +59,6 @@ git commit -m 'fix: 修复购物车删除异常'  //此处的fix 是通过识别
 
 crisp log [type] [message] -n // 加上-n 参数表示 只进行 git commit，不执行 git add .
 
-crisp log [type] [message] -n // 加上-p 参数表示 commit 之后自动 git push
+crisp log [type] [message] -p // 加上-p 参数表示 commit 之后自动 git push
 
-crisp log [type] [message] -n // 加上-u 参数表示 commit 之后自动 git push -u origin branch:branch
+crisp log [type] [message] -u // 加上-u 参数表示 commit 之后自动 git push -u origin branch:branch
