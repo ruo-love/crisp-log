@@ -87,7 +87,10 @@ program
             console.log(stdout, stderr);
             return;
           }
-          (option.push || option.u) && push();
+          setTimeout(() => {
+            console.log("开始push");
+            (option.push || option.u) && push();
+          }, 5000);
         }
       );
     }
