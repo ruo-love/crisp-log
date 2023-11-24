@@ -109,7 +109,7 @@ program
               console.log(stdout, stderr);
               return;
             }
-            console.log("xxxx");
+            console.log("xxxx",stdout,stderr);
           }
         );
       });
