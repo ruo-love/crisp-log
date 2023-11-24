@@ -102,16 +102,13 @@ program
           return;
         }
         const branch = stdout.trim();
-        exec(
-          option.u ? `git push -u origin ${branch}:${branch}` : "git push",
-          (err, stdout, stderr) => {
-            if (err) {
-              console.log(stdout, stderr);
-              return;
-            }
-            console.log("xxxx",stdout,stderr);
+        exec("git push", (err, stdout, stderr) => {
+          if (err) {
+            console.log(stdout, stderr);
+            return;
           }
-        );
+          console.log("xxxx", stdout, stderr);
+        });
       });
     }
   });
