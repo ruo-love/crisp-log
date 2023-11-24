@@ -27,8 +27,7 @@ program
   .description("开始生成提交信息")
   .action(async (p1, p2, option) => {
     const { notAdd } = option;
-    console.log(option)
-    return
+
     let _type, _message;
     if (p1 && p2) {
       _type = p1;
@@ -110,7 +109,7 @@ program
               console.log(stdout, stderr);
               return;
             }
-            console.log(stdout);
+            console.log("xxxx");
           }
         );
       });
@@ -118,4 +117,3 @@ program
   });
 
 program.parse(process.argv);
-  
